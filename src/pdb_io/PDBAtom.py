@@ -27,7 +27,6 @@ class PDBAtom(PDBLine):
         self.tempFactor = float(line[60:66])
         self.element = line[76:78]
         self.charge = line[78:80]
-        return ()
         
     def __str__(self) -> str:
         """returns a string with atom data"""
