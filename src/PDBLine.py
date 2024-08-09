@@ -4,7 +4,3 @@ class PDBLine:
 
     def __str__(self) -> str:
         return self.line
-    
-    #@classmethod
-    def from_line(cls, line):
-        return cls(line)
