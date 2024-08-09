@@ -2,14 +2,17 @@ class PDBFile(object):
     """
     One class-object represents one pdb-file. Reading the pdb-file, using
     this class will automatically initiate the PDB-ATOM class, for each line
-    in the pdb-file.
+    in the pdbfile.
+    
+    filename : str => contains the filename of the pdbfile
+    content : list => a list with objects of the class PDBLine.
     """
     
-    def __init__(self, filename=None: str) -> None:
-    self.filename = filename
-    self.content = []
+    def __init__(self, filename : str = None) -> None:
+        self.filename = filename
+        self.content = []
 
-    def read_file(self) -> None:
+    def read(self) -> None:
         """reads file into class variable"""
         # print(self.filename)
         with open(self.filename, 'r') as infile:
@@ -19,20 +22,7 @@ class PDBFile(object):
                     self.content.append(PDBAtom(pdbline))
                 elif len(line) > 1:
                     self.content.append(pdbline)
-            self.read(infile.read())
-    
-    def read(self, file_content: str) -> None:
-        """
-        read file, for each line in the file a new instance of the class PDBAtom
-        is created.
-        """
-        for line in file_content.split('\n'):
-            line = line.strip('\n')
-            if line[0:6].strip() in ("HETATM", "ATOM"):
-                self.content.append(PDBAtom(line))
-            elif len(line) > 1:
-                self.content.append(line)
-    
+       
     def write(self) -> str:
         """outputs the entire pdb data in one string"""
         return ("\n".join([str(line) for line in self.content]))
@@ -65,33 +55,33 @@ class PDBFile(object):
                  isinstance(pdbatom, PDBAtom)]
         count = len(atoms)
         if count != len(new_coordinates):
-            raise PDBFormatError("Number of coordinates does not match number
+            raise PDBFormatError("Number of coordinates does not match number"
             "of atoms! ({0:d} != {1:d})".format(count, len(new_coordinates)))
         for atom, coords in zip(atoms, new_coordinates):
             atom.set_coords(coords)
     
     def __iter__(self) -> iter:
-        """iterates over the content of the pdb-file."""
+        """iterates over the content of the pdbfile."""
         return (iter(self.content))
     
     def iter_atoms(self, is_atom=True, is_hetatm=True) -> PDBAtom:
-        """Iterates over all PDB-ATOM objects."""
-        for con in self.content:
-            if hasattr(con, "record"):
-                if is_hetatm and con.record == "HETATM":
-                    yield (c)
-                elif ATOM and c.record == "ATOM  ":
-                    yield (c)
-    
-    def iter_heavy_atoms(self, ATOM=True, HETATM=True) -> PDBAtom:
-        """Iterates over all heavy atom PDB-ATOM objects."""
-        for at in self.iter_atoms(ATOM=ATOM, HETATM=HETATM):
-            if self.is_hydrogen(at):
+        """Iterates over all PDBAtom objects."""
+        atoms = [pdbatom for pdbatom in self.content if
+                 isinstance(pdbatom, PDBAtom)]
+        for atom in atoms:
+            if atom.record=="ATOM" and is_atom:
+                yield(atom)
+            if atom.record=="HETATM"and is_hetatm:
+                yield(atom)
+       
+    def iter_heavy_atoms(self, is_atom=True, is_hetatm=True) -> PDBAtom:
+        """Iterates over all heavy atom PDBAtom objects."""
+        for atom in self.iter_atoms(is_atom=is_atom, is_hetatm=is_hetatm):
+            if atom.is_hydrogen():
                 continue
-            yield (at)
+            yield(atom)
         
-    def get_heavy_atoms(self, ATOM=True, HETATM=True) -> list:
-        """returns a list of PDB-ATOM objects for all the heavy atoms."""
-        return (list(self.iter_heavy_atoms()))
-
-
+    def get_heavy_atoms(self, is_atom=True, is_hetatm=True) -> list:
+        """returns a list of PDBAtom objects for all the heavy atoms."""
+        return (list(self.iter_heavy_atoms(is_atom=is_atom, \
+                                           is_hetatm=is_hetatm)))
