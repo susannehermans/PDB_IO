@@ -1,7 +1,7 @@
-# Bio2byte :: PeptideBuilder
+# PDB_IO
 
-This repository is a fork of **PeptideBuilder: A simple Python library to generate model peptides**
-by *Matthew Z. Tien*, *Dariya K. Sydykova*, *Austin G. Meyer*, and *Claus O. Wilke*.
+This repository is a custom PDB reader/writer with all the functionality that I need for building custom Ligands
+by *Susanne Hermans*
 
 ## Installation
 
