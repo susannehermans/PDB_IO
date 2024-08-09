@@ -1,3 +1,4 @@
+from typing import Tuple
 from .PDBLine import PDBLine
 
 class PDBAtom(PDBLine):
@@ -11,7 +12,7 @@ class PDBAtom(PDBLine):
         represents one Atom. NOTE: PDB-files shouldn't be splitted into columns,
         because columns might not have a separator in between.
         """
-        line = line.rstrip()
+        self.line = line.rstrip()
         self.record = line[0:6]  # one of ATOM or HETATM
         self.serial = int(line[6:11])
         self.name = line[12:16]
@@ -51,11 +52,11 @@ class PDBAtom(PDBLine):
                 charge=self.charge)
         return (as_string)
         
-    def get_coords(self) -> tuple:
+    def get_coords(self) -> Tuple[float]:
         """returns the coordinates for this atom as a tuple."""
         return (self.coords)
     
-    def set_coords(self, coords: tuple) -> None:
+    def set_coords(self, coords: Tuple) -> None:
         """resets the coordinates of this atom."""
         if len(coords) != len(self.coords):
             raise PDBFormatError("Dimensionality of coordinates does not "
