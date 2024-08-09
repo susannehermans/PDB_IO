@@ -1,3 +1,6 @@
+from .PDBLine import PDBLine
+from .PDBAtom import PDBAtom
+
 class PDBFile(object):
     """
     One class-object represents one pdb-file. Reading the pdb-file, using
