@@ -1,7 +1,7 @@
 import sys
 from .PDBFile import PDBFile
 
-def main():
+def main(file_input, output_file):
     """
     Detects the ligand "HETATM" of the pdb-file, and return ligand name
     and number. This is needed as input for CNA analyses.
@@ -11,8 +11,8 @@ def main():
     The input is a text file with the name of a pdb-file in each line.
     """
     
-    output_file = "residue_numbers.list"
-    file_input = "/home/hermans/FLG_2024/prep3_structures/pdbfiles.list"
+    #output_file = "residue_numbers.list"
+    #file_input = "/home/hermans/FLG_2024/prep3_structures/pdbfiles.list"
     
     # Read list of files which need to be processed
     with open(file_input, "r") as file_input_content:
@@ -40,9 +40,9 @@ def main():
                 output.write(f"\t\t{tup[0]} - {tup[1]}")
             output.write("\n")
     
-    print("\nFinished ... output was written to: residue_number.list\n")
+    print(f"\nFinished ... output was written to: {output_file}\n")
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(file_input=sys.argv[1], output_file=sys.argv[2]))
 
 
