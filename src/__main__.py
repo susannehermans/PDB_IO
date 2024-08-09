@@ -1,7 +1,7 @@
 import sys
+from .PDBFile import PDBFile
 
-
-def __main__():
+def main():
     """
     Detects the ligand "HETATM" of the pdb-file, and return ligand name
     and number. This is needed as input for CNA analyses.
@@ -43,6 +43,6 @@ def __main__():
     print("\nFinished ... output was written to: residue_number.list\n")
 
 if __name__ == "__main__":
-    sys.exit(__main__())
+    sys.exit(main())
 
 
