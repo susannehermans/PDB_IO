@@ -19,7 +19,7 @@ class PDBFile(object):
         """reads file into class variable"""
         # print(self.filename)
         with open(self.filename, 'r') as infile:
-            for line in infile.readlines():
+            for line in infile:
                 pdbline=PDBLine(line.rstrip())
                 if line[0:6].strip() in ("HETATM", "ATOM"):
                     self.content.append(PDBAtom(pdbline))
