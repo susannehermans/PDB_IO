@@ -1,6 +1,7 @@
 from typing import List, Tuple
 from .PDBLine import PDBLine
 from .PDBAtom import PDBAtom
+from .PDBFormatError import PDBFormatError
 
 class PDBFile(object):
     """
