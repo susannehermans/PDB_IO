@@ -1,9 +1,11 @@
+
+#@dataclass inherits from PDBLine
 class PDBAtom(PDBLine):
     """
     Represents ATOM or HETATM entry as defined in PDB format description v3.30
     """
     
-    def __init__(self):
+    def __init__(self, PDBLine):
         """
         Loads the data of the PDBLine into variables, one class object
         represents one Atom. NOTE: PDB-files shouldn't be splitted into columns,
@@ -24,11 +26,11 @@ class PDBAtom(PDBLine):
         self.element : str
         self.charge : str
                 
-        self.from_line()
+        self.from_line(PDBLine)
 
-    # @classmethod
-    def from_line(self):
-        line = line.rstrip()
+    #@classmethod
+    def from_line(self, PDBLine):
+        line = PDBLine.line.rstrip()
         self.record = line[0:6]  # one of ATOM or HETATM
         self.serial = int(line[6:11])
         self.name = line[12:16]
@@ -67,7 +69,7 @@ class PDBAtom(PDBLine):
                 element=self.element,
                 charge=self.charge)
         return (as_string)
-            
+        
     def get_coords(self) -> tuple:
         """returns the coordinates for this atom as a tuple."""
         return (self.coords)
@@ -75,8 +77,8 @@ class PDBAtom(PDBLine):
     def set_coords(self, coords: tuple) -> None:
         """resets the coordinates of this atom."""
         if len(coords) != len(self.coords):
-            sys.stderr.write("Dimensionality of coordinates does not match!")
-            return ()
+            raise PDBFormatError("Dimensionality of coordinates does not "
+            "match! - ({0:d} != {1:d})".format(len(coords), len(self.coords)))
         self.coords = coords
     
     def is_hydrogen(self) -> bool:
@@ -88,4 +90,3 @@ class PDBAtom(PDBLine):
             return (True)
         else:
             return (False)
-
