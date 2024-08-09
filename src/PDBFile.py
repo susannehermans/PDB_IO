@@ -1,3 +1,4 @@
+from typing import List, Tuple
 from .PDBLine import PDBLine
 from .PDBAtom import PDBAtom
 
@@ -20,11 +21,10 @@ class PDBFile(object):
         # print(self.filename)
         with open(self.filename, 'r') as infile:
             for line in infile:
-                pdbline=PDBLine(line.rstrip())
-                if line[0:6].strip() in ("HETATM", "ATOM"):
-                    self.content.append(PDBAtom(pdbline))
+                if line.startswith("HETATM") or line.startswith("ATOM"):
+                    self.content.append(PDBAtom(line.rstrip()))
                 elif len(line) > 1:
-                    self.content.append(pdbline)
+                    self.content.append(PDBLine(line.rstrip()))
        
     def write(self) -> str:
         """outputs the entire pdb data in one string"""
@@ -35,15 +35,15 @@ class PDBFile(object):
         with open(outfilename, 'w') as outfile:
             outfile.write(self.write())
     
-    def get_coordinates(self) -> list:
+    def get_coordinates(self) -> List[Tuple[float]]:
         """Returns atom coordinates as a list of tuples."""
         coordinates = []
         for c in self.content:
-            if hasattr(c, "coords"):
+            if isinstance(c, PDBAtom):
                 coordinates.append(c.coords)
         return (coordinates)
 
-    def get_heavy_atom_coordinates(self) -> list:
+    def get_heavy_atom_coordinates(self) -> List[Tuple[float]]:
         """Returns atom coordinates of heavy atoms as a list of tuples."""
         coordinates = []
         for pdbatom in self.content:
@@ -51,7 +51,7 @@ class PDBFile(object):
                 coordinates.append(pdbatom.coords)
         return (coordinates)
 
-    def set_coordinates(self, new_coordinates: list) -> None:
+    def set_coordinates(self, new_coordinates: List) -> None:
         """Resets coordinates for all atoms in the pdb-file, using a list of
         tuples as input, format: [(x,y,z)]"""
         atoms = [pdbatom for pdbatom in self.content if
@@ -74,7 +74,7 @@ class PDBFile(object):
         for atom in atoms:
             if atom.record=="ATOM" and is_atom:
                 yield(atom)
-            if atom.record=="HETATM"and is_hetatm:
+            if atom.record=="HETATM" and is_hetatm:
                 yield(atom)
        
     def iter_heavy_atoms(self, is_atom=True, is_hetatm=True) -> PDBAtom:
@@ -84,7 +84,7 @@ class PDBFile(object):
                 continue
             yield(atom)
         
-    def get_heavy_atoms(self, is_atom=True, is_hetatm=True) -> list:
+    def get_heavy_atoms(self, is_atom=True, is_hetatm=True) -> List[PDBAtom]:
         """returns a list of PDBAtom objects for all the heavy atoms."""
-        return (list(self.iter_heavy_atoms(is_atom=is_atom, \
+        return (list(self.iter_heavy_atoms(is_atom=is_atom, 
                                            is_hetatm=is_hetatm)))
