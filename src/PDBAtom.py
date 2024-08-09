@@ -1,5 +1,5 @@
+from .PDBLine import PDBLine
 
-#@dataclass inherits from PDBLine
 class PDBAtom(PDBLine):
     """
     Represents ATOM or HETATM entry as defined in PDB format description v3.30
