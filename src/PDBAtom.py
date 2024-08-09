@@ -5,32 +5,13 @@ class PDBAtom(PDBLine):
     Represents ATOM or HETATM entry as defined in PDB format description v3.30
     """
     
-    def __init__(self, PDBLine):
+    def __init__(self, line : str):
         """
         Loads the data of the PDBLine into variables, one class object
         represents one Atom. NOTE: PDB-files shouldn't be splitted into columns,
         because columns might not have a separator in between.
         """
-        
-        self.record : str
-        self.serial : int
-        self.name :str
-        self.altLoc : str
-        self.resName : str
-        self.chainID : str
-        self.resSeq : str
-        self.iCode : str
-        self.coords : tuple
-        self.occupancy : str
-        self.tempFactor : str
-        self.element : str
-        self.charge : str
-                
-        self.from_line(PDBLine)
-
-    #@classmethod
-    def from_line(self, PDBLine):
-        line = PDBLine.line.rstrip()
+        line = line.rstrip()
         self.record = line[0:6]  # one of ATOM or HETATM
         self.serial = int(line[6:11])
         self.name = line[12:16]
