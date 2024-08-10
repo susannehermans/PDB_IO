@@ -25,17 +25,15 @@ A simple import example is shown below. Other examples can be found in the
 ```python
 # Import the library
 from pdb_io import main
-from pdb_io import PDBAtom
+from pdb_io.PDBAtom import PDBAtom
+```
 
 ## Added features
 
 ### Version 1.0.1
 
-* PDB_IO is a PDB file reader and writer which stores the atomdata of the
-PDB file into class variables for easy usage.
-Similarly, I have developed a Mol2 file reader and writer which reads the
-files into class variables which can be accessed in exactly the same way.
-(Will be published soon!)
+* PDB_IO is a PDB file reader and writer which stores the atomdata of the PDB file into class variables for easy usage.
+Similarly, I have developed a Mol2 file reader and writer which reads the files into class variables which can be accessed in exactly the same way. (Will be published soon!)
 
 ## Misc
 
