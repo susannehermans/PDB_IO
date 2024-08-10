@@ -18,67 +18,26 @@ pip install git+https://github.com/susannehermans/PDB_IO
 
 ## Usage
 
-A simple example is shown below. Other examples can be found in the `examples/` folder.
+A simple import example is shown below. Other examples can be found in the `examples/` folder.
 
 ```python
 # Import the library
-from Bio.PDB import PDBIO
-import bio2byte.PeptideBuilder as PeptideBuilder
-from bio2byte.PeptideBuilder import Geometry
-
-# Dihedral angles for an alpha-helix
-helix_phipsi = (-60., -40.)
-
-# Sequence (case insensitive)
-sequence = "LYS-GLY-GLU-ARG-GLN-SEP-ALA-VAL-ASP-ILE-ASP".split("-")
-
-# Build an alpha-helical peptide with N-terminal acetyl and
-# C-terminal N-methyl capping groups
-structure = PeptideBuilder.initialize_ACE()
-for res in sequence:
-    geo = Geometry.geometry(res)
-    geo.phi, geo.psi_im1 = helix_phipsi
-    PeptideBuilder.add_residue(structure, geo)
-PeptideBuilder.add_terminal_NME(structure)
-
-# Write to PDB file
-pdbwriter = PDBIO()
-pdbwriter.set_structure(structure)
-pdbwriter.save("peptide.pdb")
-```
+from pdb_io import main
+from pdb_io import PDBAtom
 
 ## Added features
 
-### Version 1.2.0
+### Version 1.0.1
 
-* Include new residue geometries
-    * SEP (phosphoserine)
-    * TPO (phosphothreonine)
-    * PTR (phosphotyrosine)
-* Include new initialization/termination residues
-    * ACE (N-terminal acetyl group)
-    * NME (C-terminal *N*-methyl group)
-    * NH2 (C-terminal amide group)
-* Allow three-letter residue names in `geometry` funtion
-* Allow alternative residue names for protonation states:
-    * ASH (neutral aspartatic acid)
-    * GLH (neutral glutamic acis)
-    * HIP (protonated histidine)
-    * S1P (protonated phosphoserine, net charge = -1)
-    * T1P (protonated phosphothreonine, net charge = -1)
-    * Y1P (protonated phosphotyrosine, net charge = -1)
+* PDB_IO is a PDB file reader and writer which stores the atomdata of the PDB file into class variables for easy usage.
+Similarly I have developed a Mol2 file reader and writer which reads the files into class variables which can be accessed in exactly the same way. (Will be published soon!)
 
 ## Misc
 
 The software is provided to you under the MIT license (see file `LICENSE.txt`).
-The most up-to-date version of this software is available at
-https://github.com/clauswilke/PeptideBuilder.
-
-To test whether your installation works properly, run `pytest` in the top-level project folder.
 
 ## Reference
 
-Please cite the original package:
+Please cite this github repository:
 
-> M. Z. Tien, D. K. Sydykova, A. G. Meyer, C. O. Wilke (2013). PeptideBuilder:
-> A simple Python library to generate model peptides. PeerJ 1:e80.
+> S.M.A. Hermans (2024) PDB_IO repository https://github.com/susannehermans/PDB_IO
