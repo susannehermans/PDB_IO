@@ -1,19 +1,19 @@
 # PDB_IO
 
-This repository is a custom PDB reader/writer with all the functionality that I need for building custom Ligands
+This repository is a custom PDB reader/writer with all the functionality that I need for building custom small-molecule ligands. This repository has been developed in Python3.7. 
 by *Susanne Hermans*
 
 ## Installation
 
-You can install bio2byte-peptidebuilder directly from GitHub:
+You can install PDB_IO directly from GitHub:
 
 ```sh
 # Create a virtual environment (optional)
-python -m venv peptidebuilder
-source peptidebuilder/bin/activate
+python -m venv pdbio
+source pdbio/bin/activate
 
 # Install directly from GitHub
-pip install git+https://github.com/Bio2Byte/bio2byte-peptidebuilder
+pip install git+https://github.com/susannehermans/PDB_IO
 ```
 
 ## Usage
